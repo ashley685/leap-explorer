@@ -147,6 +147,52 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;bor
 .story strong{color:var(--ink);font-weight:400}
 .note{font-size:12px;color:var(--ink-faint);margin:14px 0 0}
 
+/* v2: brief blocks */
+.lead{font-family:var(--serif);font-size:clamp(22px,2.4vw,27px);line-height:1.35;margin:0;max-width:40ch}
+.stats4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+.stats4 div{background:var(--card);border:1px solid var(--hair);border-radius:20px;padding:16px 18px}
+.stats4 b{display:block;font-family:var(--serif);font-weight:300;font-size:clamp(40px,4.4vw,54px);line-height:1;color:var(--ink)}
+.stats4 span{display:block;margin-top:6px;font-size:13px;color:var(--ink-soft);line-height:1.4}
+details.more{margin-top:16px}
+details.more summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-soft);padding:6px 0;border-bottom:1px solid var(--hair)}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::before{content:"";width:7px;height:7px;border-right:1.5px solid var(--gold);border-bottom:1.5px solid var(--gold);transform:rotate(-45deg);transition:transform .3s}
+details.more[open] summary::before{transform:rotate(45deg)}
+details.more summary:hover{color:var(--ink);border-color:var(--gold)}
+.more-body{padding-top:14px;animation:reveal .45s cubic-bezier(.2,.7,.2,1)}
+.more-body .text + .text{margin-top:14px}
+@keyframes reveal{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.calc details.more{margin-top:8px}
+.calc details.more summary{font-size:13px;border:0;padding:4px 0}
+.calc .more-body .text{font-size:16px}
+.more-top{display:flex;justify-content:flex-end;margin-bottom:8px}
+.duties{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:4px}
+.duties div{border-top:2px solid var(--gold);padding-top:12px}
+.duties b{display:block;font-family:var(--serif);font-weight:400;font-size:21px;line-height:1.15}
+.duties span{display:block;font-size:13px;color:var(--ink-soft);margin-top:6px;line-height:1.45}
+/* timeline */
+.tl{position:relative;height:108px;margin:30px 10px 6px}
+.tl-track{position:absolute;left:0;right:0;top:10px;height:4px;border-radius:4px;background:var(--hair)}
+.tl-fill{position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:linear-gradient(90deg,var(--gold),var(--gold-lt));width:0;transition:width .6s cubic-bezier(.2,.7,.2,1)}
+.tl-node{position:absolute;top:0;transform:translateX(-50%);background:none;border:0;padding:0;cursor:pointer;text-align:center;font:inherit;color:inherit;width:120px}
+.tl-node:first-of-type{transform:none;text-align:left}
+.tl-node:last-of-type{transform:translateX(-100%);text-align:right}
+.tl-node i{display:block;width:24px;height:24px;border-radius:50%;margin:0 auto;background:var(--card);border:1.5px solid var(--hair);transition:all .35s}
+.tl-node:first-of-type i{margin:0}.tl-node:last-of-type i{margin:0 0 0 auto}
+.tl-node.lit i{border:none;background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.9) 0%,rgba(255,255,255,.1) 25%,rgba(255,255,255,0) 45%),radial-gradient(circle at 65% 75%,#D9BD78 0%,#B08A38 60%,#8E6E28 100%);box-shadow:0 2px 6px rgba(142,110,40,.45),inset 0 -2px 3px rgba(80,60,10,.4)}
+.tl-node.here i{transform:scale(1.25);box-shadow:0 0 0 5px var(--gold-glow),0 2px 6px rgba(142,110,40,.45)}
+.tl-node b{display:block;margin-top:10px;font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.1}
+.tl-node span{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
+.tl-node:focus-visible{outline:2px solid var(--gold);outline-offset:6px;border-radius:8px}
+.tl-card{margin-top:14px;background:var(--card);border:1px solid var(--hair);border-radius:22px;padding:18px 22px;display:grid;grid-template-columns:230px 1fr;gap:22px;align-items:start}
+.tl-card h3{margin:0;font-family:var(--serif);font-weight:400;font-size:26px;line-height:1.1}
+.tl-card h3 small{display:block;font-family:var(--sans);font-size:13px;color:var(--ink-soft);margin-top:6px}
+.tl-card ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.tl-card li{font-size:14.5px;line-height:1.45;padding-left:18px;position:relative}
+.tl-card li::before{content:"";position:absolute;left:0;top:.55em;width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.tl-card li b{font-weight:500;color:var(--gold)}
+@media (max-width:820px){.stats4{grid-template-columns:1fr 1fr}.duties{grid-template-columns:1fr}.tl-card{grid-template-columns:1fr}.tl-node{width:70px}.tl{height:64px}.tl-node span{display:none}.tl-node b{font-size:15px}}
+
 /* call CTAs */
 .btn3d.go{--lift:5px;display:inline-flex;align-items:center;gap:10px;font-size:15.5px;padding:14px 18px 13px 22px;border-radius:18px;color:#F3E7C6;overflow:hidden;
   background:linear-gradient(180deg,#34573F 0%,#1A3326 58%,#10231A 100%);
@@ -277,27 +323,14 @@ footer p{margin:0;max-width:78ch}
 
   <section class="hero">
     <p class="kicker">Your Unison HomeOwner agreement, explained</p>
-    <h1 id="headline">Your home equity, in five minutes.</h1>
-    <p id="heroText">Your application is in. Here is how a Unison HomeOwner agreement works, what it could mean for your home, and the few documents we still need. Read it, or tap Listen on any section.</p>
-    <div class="hero-cta"><button class="btn3d go call ">Talk to a Home Equity Specialist<svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4.5 L12.5 10 L7 15.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span>A free 15-minute call, whenever suits you.</span></div>
-    <nav class="toc" aria-label="Sections">
-      <a href="#how">How it works</a><a href="#numbers">Your numbers</a><a href="#early">The first five years</a><a href="#you">Your part</a><a href="#ending">Ending it</a><a href="#costs">Costs</a><a href="#docs">Documents</a><a href="#call">Talk to us</a>
-    </nav>
-  </section>
-
-  <section class="sec brief" id="how">
-    <div class="sec-head"><div><p class="num">One</p><h2>How it works</h2></div>
-      <button class="btn3d listen" aria-pressed="false"><span class="eq"><i></i><i></i><i></i><i></i></span><span class="lbl">Listen</span></button></div>
-    <p class="text">Unison gives you a cash payment today of up to 15% of your home's value. In exchange, Unison shares in your home's change in value, up or down. There is no interest and no monthly payment, and you stay the owner of your home. When you sell, or after 30 years, you pay Unison back its original payment plus its share of any gain, or minus its share of any loss.</p>
-    <div class="steps">
-      <div class="step"><b>1</b><p>You receive cash, up to 15% of your home's value, to use however you like.</p></div>
-      <div class="step"><b>2</b><p>You live in your home as usual. No monthly payments, no interest.</p></div>
-      <div class="step"><b>3</b><p>When you sell, you settle up in one payment from the sale.</p></div>
-    </div>
+    <h1 id="headline">Your home equity, in two minutes.</h1>
+    <p id="heroText">Your application is in. Here is how a Unison HomeOwner agreement works, what it could mean for your home, and the few documents we still need. Two minutes to read, or tap Listen.</p>
+    <div class="hero-cta"><button class="btn3d go call ">Talk to a Home Equity Specialist<svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4.5 L12.5 10 L7 15.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="btn3d listen-all" id="listenAll" aria-pressed="false"><span class="eq"><i></i><i></i><i></i><i></i></span><span class="lbl">Listen to the whole guide</span></button></div>
+    <nav class="toc" aria-label="Sections"><a href="#numbers">Your numbers</a><a href="#how">How it works</a><a href="#timeline">Your timeline</a><a href="#you">Your part</a><a href="#docs">Documents</a><a href="#call">Talk to us</a></nav>
   </section>
 
   <section class="sec" id="numbers">
-    <div class="sec-head"><div><p class="num">Two</p><h2>Your numbers</h2></div></div>
+    <div class="sec-head"><div><p class="num">One</p><h2>Your numbers</h2></div></div>
     <div class="calc" id="calc">
       <div class="grid3">
         <div class="pane home">
@@ -323,6 +356,8 @@ footer p{margin:0;max-width:78ch}
           <div class="kv"><span>Cash payment</span><span id="kPay">$0</span></div>
           <div class="kv"><span>Transaction fee (3.9%)</span><span id="kFee">$0</span></div>
           <div class="kv hl"><span>Cash to you, before third-party costs</span><span id="kNet">$0</span></div>
+          <details class="more brief" data-n="4"><summary>Third-party costs</summary>
+            <div class="more-body"><div class="more-top"><button class="btn3d listen" aria-pressed="false"><span class="eq"><i></i><i></i><i></i><i></i></span><span class="lbl">Listen</span></button></div><p class="text">There is a one-time transaction fee of 3.9% of Unison's payment, taken from the cash you receive at closing. You also cover third-party costs: an appraisal, typically $450 to $1,250; an inspection, typically $650 to $1,050; and settlement costs of $700 to $1,750, depending on your area. Your exact costs are shown to you before you sign.</p></div></details>
         </div>
       </div>
       <div class="sell">
@@ -353,41 +388,60 @@ footer p{margin:0;max-width:78ch}
     <div class="ask"><p>Want to walk through your numbers?<small>A Home Equity Specialist can run scenarios with you in 15 minutes.</small></p><button class="btn3d go call soft">Schedule a call<svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4.5 L12.5 10 L7 15.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
   </section>
 
-  <section class="sec brief" id="early">
-    <div class="sec-head"><div><p class="num">Three</p><h2>The first five years</h2></div>
-      <button class="btn3d listen" aria-pressed="false"><span class="eq"><i></i><i></i><i></i><i></i></span><span class="lbl">Listen</span></button></div>
-    <p class="text">Unison's agreement is built for the long run, so a few rules apply early on. If you sell or end the agreement in the first five years and your home has lost value, Unison doesn't share in that loss, so you would repay at least the original payment plus the 5% adjustment. In the same window, an Equity Appreciation Limit caps what Unison can earn if your home rises quickly. Value you add by remodeling becomes entirely yours after the third anniversary, as long as you tell Unison and document the project before you start.</p>
-    <div class="facts">
-      <div class="fact"><h3>The 5% adjustment</h3><p>Unison measures change from your appraised value less 5%, to account for appraisal uncertainty. You still receive cash based on the full appraised value.</p></div>
-      <div class="fact"><h3>Remodeling is yours</h3><p>Photograph the home before you start, use licensed contractors and permits, and an appraiser credits the added value to you.</p></div>
+
+  <section class="sec brief" id="how" data-n="0">
+    <div class="sec-head"><div><p class="num">Two</p><h2>How it works</h2></div><button class="btn3d listen" aria-pressed="false"><span class="eq"><i></i><i></i><i></i><i></i></span><span class="lbl">Listen</span></button></div>
+    <p class="lead">Cash today for a share of your home's future change in value. No interest, no monthly payments, and it's still your home.</p>
+    <div class="stats4">
+      <div><b>15%</b><span>of your home's value, the most you can receive</span></div>
+      <div><b>$0</b><span>in monthly payments or interest</span></div>
+      <div><b>1</b><span>payment, when you sell or the term ends</span></div>
+      <div><b>30</b><span>years, the longest an agreement can run</span></div>
     </div>
+    <details class="more"><summary>The full explanation</summary><div class="more-body"><p class="text">Unison gives you a cash payment today of up to 15% of your home's value. In exchange, Unison shares in your home's change in value, up or down. There is no interest and no monthly payment, and you stay the owner of your home. When you sell, or after 30 years, you pay Unison back its original payment plus its share of any gain, or minus its share of any loss.</p></div></details>
   </section>
 
-  <section class="sec brief" id="you">
-    <div class="sec-head"><div><p class="num">Four</p><h2>Your part</h2></div>
-      <button class="btn3d listen" aria-pressed="false"><span class="eq"><i></i><i></i><i></i><i></i></span><span class="lbl">Listen</span></button></div>
-    <p class="text">Keep the home as your primary residence: live there at least 180 days a year, and don't be away for 60 days or more in a row. Stay current on your mortgage, property taxes and insurance, and keep hazard insurance equal to your home's value. Keep the home in good repair, because a loss in value from poor upkeep can be added back when you settle. And let Unison know about big changes, like selling, a new lien, a remodel, or a change in who owns or lives in the home.</p>
-    <div class="facts">
-      <div class="fact"><h3>Thinking of refinancing?</h3><p>Some lenders won't lend behind a shared-equity agreement, so if a refinance is on your horizon, it's often best to do it first.</p></div>
-      <div class="fact"><h3>Other loans</h3><p>You can take on other debt as long as your total stays below the limit set when you sign. Reverse mortgages and negative-amortization loans usually aren't allowed.</p></div>
+  <section class="sec brief" id="timeline" data-n="1,3">
+    <div class="sec-head"><div><p class="num">Three</p><h2>Your timeline</h2></div><button class="btn3d listen" aria-pressed="false"><span class="eq"><i></i><i></i><i></i><i></i></span><span class="lbl">Listen</span></button></div>
+    <p class="lead">What applies depends on when you settle. Tap a moment, or drag the year in Your numbers.</p>
+    <div class="tl" id="tl">
+      <div class="tl-track"><div class="tl-fill" id="tlFill"></div></div>
+      <button class="tl-node" data-y="1"><i></i><b>Today</b><span>Cash in hand</span></button>
+      <button class="tl-node" data-y="3"><i></i><b>Year 3</b><span>Remodel gains are yours</span></button>
+      <button class="tl-node" data-y="5"><i></i><b>Year 5</b><span>Early rules end</span></button>
+      <button class="tl-node" data-y="15"><i></i><b>Any time</b><span>Buy Unison out</span></button>
+      <button class="tl-node" data-y="30"><i></i><b>Year 30</b><span>Term ends</span></button>
     </div>
+    <div class="tl-card" id="tlCard"></div>
+    <details class="more"><summary>The full explanation</summary><div class="more-body">
+      <p class="text">Unison's agreement is built for the long run, so a few rules apply early on. If you sell or end the agreement in the first five years and your home has lost value, Unison doesn't share in that loss, so you would repay at least the original payment plus the 5% adjustment. In the same window, an Equity Appreciation Limit caps what Unison can earn if your home rises quickly. Value you add by remodeling becomes entirely yours after the third anniversary, as long as you tell Unison and document the project before you start.</p>
+      <p class="text">Most people end their agreement by selling. Unison typically orders an independent appraisal, and settlement is based on the sale price, adjusted for any remodeling or upkeep. You can also buy Unison out at any time without selling; this is called a Special Termination and uses a fresh appraisal, and Unison doesn't share in any loss when you do. If you reach the 30-year term, you either pay Unison its share or sell. And if every signer on the agreement passes away, heirs have a six-month grace period to decide.</p>
+      <div class="facts">
+        <div class="fact"><h3>The 5% adjustment</h3><p>Unison measures change from your appraised value less 5%, to account for appraisal uncertainty. You still receive cash based on the full appraised value.</p></div>
+        <div class="fact"><h3>Remodeling is yours</h3><p>Photograph the home before you start, use licensed contractors and permits, and an appraiser credits the added value to you.</p></div>
+      </div></div></details>
+    <div class="ask"><p>Questions about timing?<small>Talk it through with a Home Equity Specialist.</small></p><button class="btn3d go call soft">Schedule a call<svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4.5 L12.5 10 L7 15.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
   </section>
 
-  <section class="sec brief" id="ending">
-    <div class="sec-head"><div><p class="num">Five</p><h2>Ending your agreement</h2></div>
-      <button class="btn3d listen" aria-pressed="false"><span class="eq"><i></i><i></i><i></i><i></i></span><span class="lbl">Listen</span></button></div>
-    <p class="text">Most people end their agreement by selling. Unison typically orders an independent appraisal, and settlement is based on the sale price, adjusted for any remodeling or upkeep. You can also buy Unison out at any time without selling; this is called a Special Termination and uses a fresh appraisal, and Unison doesn't share in any loss when you do. If you reach the 30-year term, you either pay Unison its share or sell. And if every signer on the agreement passes away, heirs have a six-month grace period to decide.</p>
-    <div class="ask"><p>Questions about how it ends?<small>Talk it through with a Home Equity Specialist.</small></p><button class="btn3d go call soft">Schedule a call<svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4.5 L12.5 10 L7 15.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-  </section>
-
-  <section class="sec brief" id="costs">
-    <div class="sec-head"><div><p class="num">Six</p><h2>Costs</h2></div>
-      <button class="btn3d listen" aria-pressed="false"><span class="eq"><i></i><i></i><i></i><i></i></span><span class="lbl">Listen</span></button></div>
-    <p class="text">There is a one-time transaction fee of 3.9% of Unison's payment, taken from the cash you receive at closing. You also cover third-party costs: an appraisal, typically $450 to $1,250; an inspection, typically $650 to $1,050; and settlement costs of $700 to $1,750, depending on your area. Your exact costs are shown to you before you sign.</p>
+  <section class="sec brief" id="you" data-n="2">
+    <div class="sec-head"><div><p class="num">Four</p><h2>Your part</h2></div><button class="btn3d listen" aria-pressed="false"><span class="eq"><i></i><i></i><i></i><i></i></span><span class="lbl">Listen</span></button></div>
+    <div class="duties">
+      <div><b>Live there</b><span>At least 180 days a year, and never away 60 days in a row.</span></div>
+      <div><b>Stay current</b><span>Mortgage, property taxes and insurance, paid on time.</span></div>
+      <div><b>Stay insured</b><span>Hazard coverage equal to your home's value.</span></div>
+      <div><b>Keep it in good repair</b><span>Losses from poor upkeep can be added back at settlement.</span></div>
+      <div><b>Keep us posted</b><span>Selling, a new lien, a remodel, or a change in who owns or lives there.</span></div>
+    </div>
+    <details class="more"><summary>The full explanation</summary><div class="more-body">
+      <p class="text">Keep the home as your primary residence: live there at least 180 days a year, and don't be away for 60 days or more in a row. Stay current on your mortgage, property taxes and insurance, and keep hazard insurance equal to your home's value. Keep the home in good repair, because a loss in value from poor upkeep can be added back when you settle. And let Unison know about big changes, like selling, a new lien, a remodel, or a change in who owns or lives in the home.</p>
+      <div class="facts">
+        <div class="fact"><h3>Thinking of refinancing?</h3><p>Some lenders won't lend behind a shared-equity agreement, so if a refinance is on your horizon, it's often best to do it first.</p></div>
+        <div class="fact"><h3>Other loans</h3><p>You can take on other debt as long as your total stays below the limit set when you sign. Reverse mortgages and negative-amortization loans usually aren't allowed.</p></div>
+      </div></div></details>
   </section>
 
   <section class="sec" id="docs">
-    <div class="sec-head"><div><p class="num">Seven</p><h2>Your documents</h2></div>
+    <div class="sec-head"><div><p class="num">Five</p><h2>Your documents</h2></div>
       <p class="progress-line"><b id="docCount">0</b> of 5 received</p></div>
     <p class="nudge" id="nudge"><strong>You're closer than you think.</strong> Five quick uploads, and your application moves to the next step.</p>
     <div class="docs" id="docList"></div>
@@ -402,7 +456,7 @@ footer p{margin:0;max-width:78ch}
   </section>
 
   <section class="closer" id="call">
-    <div><p class="num">Eight</p><h2>Talk it through with a specialist.</h2>
+    <div><p class="num">Six</p><h2>Talk it through with a specialist.</h2>
     <p>A free 15-minute call with a Home Equity Specialist. Bring your questions, and we'll walk through your numbers together.</p></div>
     <button class="btn3d go call ">Schedule a call with a Home Equity Specialist<svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4.5 L12.5 10 L7 15.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </section>
@@ -427,7 +481,7 @@ footer p{margin:0;max-width:78ch}
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // token: /h/<token>, ?k=<token>, or the demo default baked into this copy
-  let token=(location.pathname.match(/\/h\/([a-f0-9]{40})\/?$/)||[])[1]||new URLSearchParams(location.search).get('k');
+  let token=(location.pathname.match(/\/h\/([a-z0-9]{8,40})\/?$/)||[])[1]||new URLSearchParams(location.search).get('k');
 
   const DOCS=[
     ['document','Government photo ID',"Driver's license, passport or state ID, unexpired."],
@@ -476,8 +530,25 @@ footer p{margin:0;max-width:78ch}
     else s+='Unison shares the loss with you, so you\'d repay <strong>'+fm(d.repay)+'</strong>, less than the '+fm(d.I)+' you received.';
     $('story').innerHTML=s;
     fill(amt,+amt.min,+amt.max,S.I); fill($('year'),1,30,S.year);
+    renderTL(d);
     document.querySelectorAll('#rateChips .btn3d').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.rate===S.rate));
     document.querySelectorAll('#pctChips .btn3d').forEach(b=>{const v=snap(S.V*b.dataset.pct/100);b.setAttribute('aria-pressed',Math.abs(v-S.I)<1000)});
+  }
+  const tx=y=>y<=3?(y-1)/2*25:y<=5?25+(y-3)/2*25:50+(y-5)/25*50;
+  document.querySelectorAll('.tl-node').forEach(n=>{n.style.left=tx(+n.dataset.y)+'%';
+    n.addEventListener('click',()=>{S.year=+n.dataset.y;$('year').value=S.year;tlPick=n.dataset.y;render()})});
+  let tlPick=null;
+  function renderTL(d){
+    const y=S.year; $('tlFill').style.width=tx(y)+'%';
+    document.querySelectorAll('.tl-node').forEach(n=>{const ny=+n.dataset.y;n.classList.toggle('lit',ny===15?true:ny<=y);n.classList.toggle('here',ny===y&&(ny!==15||tlPick==='15'))});
+    if(tlPick&&+tlPick!==y)tlPick=null;
+    const L=[];
+    if(tlPick==='15')L.push('<b>Buyout:</b> end it any time without selling. A fresh appraisal sets the price, and Unison doesn\'t share in a loss.');
+    L.push(y<3?'<b>Remodeling:</b> value you add is credited to you from year 3.':'<b>Remodeling:</b> documented value you add is entirely yours.');
+    L.push(y<=5?'<b>Losses:</b> Unison doesn\'t share in a drop in value, and an Equity Appreciation Limit caps its return.':'<b>Gains and losses:</b> shared with Unison. The early limits no longer apply.');
+    if(tlPick!=='15')L.push('<b>Buyout:</b> you can end it any time without selling, using a fresh appraisal.');
+    if(y===30)L.push('<b>Term ends:</b> pay Unison its share or sell. If every signer has passed away, heirs have six months to decide.');
+    $('tlCard').innerHTML='<h3>Settling in year '+y+'<small>You\'d repay about '+fm(d.repay)+' at '+(S.rate>0?'+':'')+S.rate+'% a year.</small></h3><ul>'+L.map(x=>'<li>'+x+'</li>').join('')+'</ul>';
   }
   function maxI(){return Math.floor(Math.min(S.V*.15,500000)/1000)*1000}
   function snap(v){return Math.max(30000,Math.min(maxI(),Math.round(v/1000)*1000))}
@@ -553,11 +624,20 @@ footer p{margin:0;max-width:78ch}
   const player=new Audio(); player.preload='auto'; let active=null,runId=0;
   function stop(){runId++;player.pause();if(active){active.classList.remove('speaking');active.querySelectorAll('.s').forEach(s=>s.classList.remove('now'));
     const b=active.querySelector('.listen');b.setAttribute('aria-pressed','false');b.querySelector('.lbl').textContent='Listen';active=null}}
-  function speak(sec){stop();const my=++runId;active=sec;sec.classList.add('speaking');const b=sec.querySelector('.listen');b.setAttribute('aria-pressed','true');b.querySelector('.lbl').textContent='Stop';
-    const sents=[...sec.querySelectorAll('.s')],clips=(window.NARRATION||[])[briefs.indexOf(sec)]||[];let i=0;
-    (function next(){if(my!==runId)return;sents.forEach(s=>s.classList.remove('now'));if(i>=sents.length||i>=clips.length){stop();return}
-      const idx=i++;sents[idx].classList.add('now');player.src=clips[idx];player.onended=next;player.play().catch(()=>{if(my===runId)stop()})})()}
-  document.querySelectorAll('.listen').forEach(b=>b.addEventListener('click',()=>{pop(b);const s=b.closest('.brief');if(active===s){stop();return}speak(s)}));
+  let queue=[];
+  function setAll(on){const b=$('listenAll');b.setAttribute('aria-pressed',on);b.querySelector('.lbl').textContent=on?'Stop the guide':'Listen to the whole guide'}
+  function speak(sec,keepQueue){if(!keepQueue){queue=[];setAll(false)}stop();const my=++runId;active=sec;sec.classList.add('speaking');
+    if(sec.tagName==='DETAILS')sec.open=true; sec.querySelectorAll('details').forEach(d=>d.open=true);
+    const b=sec.querySelector('.listen');b.setAttribute('aria-pressed','true');b.querySelector('.lbl').textContent='Stop';
+    const sents=[...sec.querySelectorAll('.s')];const clips=[].concat(...(sec.dataset.n||'').split(',').map(n=>(window.NARRATION||[])[+n]||[]));let i=0;
+    if(keepQueue)sec.scrollIntoView({block:'start'});
+    (function next(){if(my!==runId)return;sents.forEach(s=>s.classList.remove('now'));
+      if(i>=sents.length||i>=clips.length){stop();if(queue.length){speak(queue.shift(),true)}else setAll(false);return}
+      const idx=i++;sents[idx].classList.add('now');player.src=clips[idx];player.onended=next;player.play().catch(()=>{if(my===runId){stop();queue=[];setAll(false)}})})()}
+  document.querySelectorAll('.listen').forEach(b=>b.addEventListener('click',()=>{pop(b);const s=b.closest('.brief');if(active===s){stop();queue=[];setAll(false);return}speak(s)}));
+  $('listenAll').addEventListener('click',()=>{const b=$('listenAll');pop(b);
+    if(b.getAttribute('aria-pressed')==='true'){stop();queue=[];setAll(false);return}
+    queue=['#how','#timeline','#you','#numbers details.brief'].map(q=>document.querySelector(q));const first=queue.shift();setAll(true);speak(first,true)});
   addEventListener('pagehide',stop);
 
   // ---------- cal.com booking ----------
@@ -592,7 +672,7 @@ footer p{margin:0;max-width:78ch}
     received=p.docs||{}; paintDocs();
     if(p.expires_at){$('expiry').textContent='This private link is active until '+new Date(p.expires_at).toLocaleDateString('en-US',{month:'long',day:'numeric'})+'.'}
     const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-    $('heroText').innerHTML=esc(p.first_name)+', your application is in. Here is how a Unison HomeOwner agreement works, what it could mean for <span class="addr-em">'+esc(p.address)+'</span>, and the few documents we still need. Read it, or tap Listen on any section.';
+    $('heroText').innerHTML=esc(p.first_name)+', your application is in. Here is how a Unison HomeOwner agreement works, what it could mean for <span class="addr-em">'+esc(p.address)+'</span>, and the few documents we still need. Two minutes to read, or tap Listen.';
     tween('vHome',S.V,fm); render();
   }).catch(()=>{});
 })();
