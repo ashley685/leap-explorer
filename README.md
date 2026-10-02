@@ -10,3 +10,4 @@ Static site served at https://explorer.leaphei.com
 
 Render settings: Static Site, publish directory `.`, build command `echo ok`,
 and one rewrite rule: Source `/*`, Destination `/index.html`, Action `Rewrite`.
+
