@@ -8,7 +8,7 @@
 <title>Leap · Secure documents</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{--forest:#1E3528;--cream:#F5EFE1;--paper:#FFFDF8;--gold:#9C7A2E;--line:#E4DAC2;--soft:#6B7468;--err:#9B3B2E;
   --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;--sans:Inter,-apple-system,'Segoe UI',Arial,sans-serif}
@@ -28,7 +28,12 @@ main{max-width:640px;margin:28px auto 64px;background:var(--paper);border:1px so
 label{display:block;font-size:13px;color:var(--soft);margin:24px 0 8px}
 input{width:100%;font:inherit;font-size:17px;font-weight:400;color:var(--forest);background:#fff;border:1px solid var(--line);padding:14px 16px;border-radius:2px;outline:none}
 input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(156,122,46,.15)}
-input.code{font-family:var(--serif);font-size:32px;letter-spacing:.4em;text-align:center;padding:10px}
+input.code{font-family:var(--serif);font-size:32px;letter-spacing:.4em;text-align:center;padding:10px;transition:opacity .2s}
+input.code:disabled{opacity:.55}
+.verifying{display:flex;align-items:center;gap:10px;font-size:14px;margin-top:16px;color:var(--forest)}
+.spin{width:16px;height:16px;border:2px solid var(--line);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation-duration:2.4s}}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:inherit;font-size:15px;font-weight:400;cursor:pointer;border:0;border-radius:999px;padding:14px 26px;background:var(--forest);color:var(--cream);margin-top:20px;text-decoration:none}
 .btn:disabled{opacity:.5;cursor:default}
 .btn:focus-visible,.dl:focus-visible,.link:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
@@ -36,8 +41,9 @@ input.code{font-family:var(--serif);font-size:32px;letter-spacing:.4em;text-alig
 .msg{font-size:14px;line-height:1.6;margin-top:14px;min-height:1px}
 .msg.err{color:var(--err)}
 .meta{font-size:13px;color:var(--soft);margin-top:6px}
-section{margin-top:30px}
-section h2{font-family:var(--serif);font-weight:500;font-size:21px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+section{margin-top:40px}
+section h2{font-family:var(--serif);font-weight:700;font-size:25px;line-height:1.2;padding-bottom:10px;border-bottom:2px solid var(--forest)}
+section h2 small{display:block;font-family:var(--sans);font-weight:400;font-size:13px;color:var(--soft);margin-top:4px}
 .row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
 .row b{font-weight:400;font-size:15px;display:block}
 .row span{font-size:12px;color:var(--soft)}
@@ -76,8 +82,8 @@ section h2{font-family:var(--serif);font-weight:500;font-size:21px;padding-botto
     <form id="f-code" novalidate>
       <label for="code">Code</label>
       <input id="code" class="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required>
-      <button class="btn" id="b-code" type="submit">Open documents</button>
-      <p class="msg" id="m-code" role="status"></p>
+      <div class="verifying" id="verifying" hidden><span class="spin" aria-hidden="true"></span>Verifying your code…</div>
+      <p class="msg" id="m-code" role="status" aria-live="polite"></p>
     </form>
     <button class="link" id="b-other" type="button">Use a different email</button>
   </div>
@@ -134,7 +140,7 @@ section h2{font-family:var(--serif);font-weight:500;font-size:21px;padding-botto
     $('b-email').disabled=true;
     post('code',{t:t,email:email}).then(function(r){return r.json()}).then(function(j){
       $('b-email').disabled=false;
-      if(j.ok){$('masked').textContent=j.masked;show('code');$('code').value='';$('code').focus();return;}
+      if(j.ok){$('masked').textContent=j.masked;busy(false);show('code');$('code').value='';$('code').focus();return;}
       if(j.code==='DOMAIN_NOT_ALLOWED'){m.className='msg err';m.textContent='Use your '+domains.map(function(x){return '@'+x}).join(' or ')+' email address.';return;}
       if(j.code==='TOO_MANY_REQUESTS'){m.className='msg err';m.textContent='Too many codes requested. Wait an hour, then try again.';return;}
       if(['EXPIRED','REVOKED','INVALID_LINK','NOT_READY'].indexOf(j.code)>=0){dead(j.code);return;}
@@ -143,31 +149,38 @@ section h2{font-family:var(--serif);font-weight:500;font-size:21px;padding-botto
   });
   $('b-other').addEventListener('click',function(){show('email');$('email').focus();});
 
-  $('f-code').addEventListener('submit',function(e){
-    e.preventDefault(); var c=$('code').value.replace(/\D/g,''), m=$('m-code'); m.className='msg'; m.textContent='';
-    if(c.length!==6){m.className='msg err';m.textContent='Enter all 6 digits.';return;}
-    $('b-code').disabled=true;
+  var verifying=false;
+  function busy(on){verifying=on;$('code').disabled=on;$('verifying').hidden=!on;$('b-other').hidden=on;}
+  function verify(){
+    if(verifying) return; var c=$('code').value.replace(/\D/g,''), m=$('m-code'); m.className='msg'; m.textContent='';
+    if(c.length!==6) return;
+    busy(true);
     post('verify',{t:t,email:email,code:c}).then(function(r){return r.json()}).then(function(j){
-      $('b-code').disabled=false;
       if(j.ok){session=j.session;loadFiles();return;}
+      busy(false); $('code').value=''; $('code').focus();
       m.className='msg err';
       m.textContent=j.code==='INVALID_CODE'?'That code doesn\u2019t match.'+(j.attempts_left!=null?' '+j.attempts_left+' tries left.':'')
         :j.code==='CODE_EXPIRED'?'That code has expired. Use a different email or request a new code.'
         :j.code==='TOO_MANY_ATTEMPTS'?'Too many tries. Request a new code.':'That code didn\u2019t work. Request a new code.';
-    }).catch(function(){$('b-code').disabled=false;m.className='msg err';m.textContent='Check your connection and try again.';});
-  });
+    }).catch(function(){busy(false);m.className='msg err';m.textContent='Check your connection and try again.';});
+  }
+  $('code').addEventListener('input',function(){var v=this.value.replace(/\D/g,'').slice(0,6); if(v!==this.value) this.value=v; if(v.length===6) verify();});
+  $('f-code').addEventListener('submit',function(e){e.preventDefault();verify();});
 
   function expired(){session=null;$('m-email').className='msg err';$('m-email').textContent='Your session ended. Request a new code to continue.';show('email');}
 
   function loadFiles(){
     post('files',{session:session}).then(function(r){return r.json()}).then(function(j){
+      busy(false);
       if(!j.ok){expired();return;}
       $('files-meta').textContent='Opened as '+j.email+'. Available until '+fmtDate(j.expires_at)+'.';
       $('all-count').textContent=j.files.length+' files';
       var host=$('sections'); host.innerHTML=''; var groups={}, order=[];
       j.files.forEach(function(f){if(!groups[f.section]){groups[f.section]=[];order.push(f.section);}groups[f.section].push(f);});
       order.forEach(function(s){
-        var sec=document.createElement('section'), h=document.createElement('h2'); h.textContent=s; sec.appendChild(h);
+        var sec=document.createElement('section'), h=document.createElement('h2'), i=s.indexOf(': ');
+        if(i>0){h.textContent=s.slice(0,i);var sm=document.createElement('small');sm.textContent=s.slice(i+2);h.appendChild(sm);}else{h.textContent=s;}
+        sec.appendChild(h);
         groups[s].forEach(function(f){
           var row=document.createElement('div'); row.className='row';
           var d=document.createElement('div'), b=document.createElement('b'), sp=document.createElement('span');
