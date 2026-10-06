@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Leap · Secure documents</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--forest:#1E3528;--cream:#F5EFE1;--paper:#FFFDF8;--gold:#9C7A2E;--line:#E4DAC2;--soft:#6B7468;--err:#9B3B2E;
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;--sans:Inter,-apple-system,'Segoe UI',Arial,sans-serif}
+*{box-sizing:border-box;margin:0}
+html,body{background:var(--cream);color:var(--forest);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased}
+body{min-height:100vh;padding:env(safe-area-inset-top,0) 16px env(safe-area-inset-bottom,0)}
+.bar{max-width:640px;margin:0 auto;padding:28px 0 0;display:flex;justify-content:space-between;align-items:center}
+.bar img{width:46px;height:18px;display:block}
+.lock{font-size:12px;color:var(--soft);display:flex;gap:6px;align-items:center}
+.lock svg{width:12px;height:12px}
+main{max-width:640px;margin:28px auto 64px;background:var(--paper);border:1px solid var(--line)}
+.head{background:var(--forest);color:var(--cream);padding:36px 40px 32px}
+.head p{font-size:13px;color:#C9BF9E;letter-spacing:.02em}
+.head h1{font-family:var(--serif);font-weight:400;font-size:34px;line-height:1.15;margin-top:8px}
+.body{padding:32px 40px 40px}
+.lede{font-size:15px;line-height:1.7;max-width:46ch}
+label{display:block;font-size:13px;color:var(--soft);margin:24px 0 8px}
+input{width:100%;font:inherit;font-size:17px;font-weight:400;color:var(--forest);background:#fff;border:1px solid var(--line);padding:14px 16px;border-radius:2px;outline:none}
+input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(156,122,46,.15)}
+input.code{font-family:var(--serif);font-size:32px;letter-spacing:.4em;text-align:center;padding:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:inherit;font-size:15px;font-weight:400;cursor:pointer;border:0;border-radius:999px;padding:14px 26px;background:var(--forest);color:var(--cream);margin-top:20px;text-decoration:none}
+.btn:disabled{opacity:.5;cursor:default}
+.btn:focus-visible,.dl:focus-visible,.link:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.link{background:none;border:0;font:inherit;font-size:13px;color:var(--gold);cursor:pointer;margin-top:16px;padding:0;text-decoration:underline;text-underline-offset:3px}
+.msg{font-size:14px;line-height:1.6;margin-top:14px;min-height:1px}
+.msg.err{color:var(--err)}
+.meta{font-size:13px;color:var(--soft);margin-top:6px}
+section{margin-top:30px}
+section h2{font-family:var(--serif);font-weight:500;font-size:21px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.row b{font-weight:400;font-size:15px;display:block}
+.row span{font-size:12px;color:var(--soft)}
+.dl{flex:none;font:inherit;font-size:13px;font-weight:400;color:var(--forest);background:none;border:1px solid var(--forest);border-radius:999px;padding:8px 16px;cursor:pointer}
+.dl:hover{background:var(--forest);color:var(--cream)}
+.all{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:20px 22px;background:var(--cream);border:1px solid var(--line);margin-top:4px}
+.all .btn{margin:0;background:var(--gold);color:#fff}
+.foot{font-size:12px;line-height:1.7;color:var(--soft);padding:22px 40px;border-top:1px solid var(--line)}
+[hidden]{display:none!important}
+.fade{animation:in .45s ease both}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.fade{animation:none}}
+@media (max-width:560px){.head,.body{padding-left:24px;padding-right:24px}.foot{padding:20px 24px}.head h1{font-size:28px}.row{align-items:flex-start;flex-direction:column}.dl{align-self:flex-start}}
+</style>
+</head>
+<body>
+<div class="bar"><img src="https://leaphei.com/images/logo-gold.png" alt="Leap" onerror="this.replaceWith(Object.assign(document.createElement('strong'),{textContent:'Leap',style:'font-family:Cormorant Garamond,Georgia,serif;font-size:22px;font-weight:500'}))">
+  <div class="lock"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="5.5" width="8" height="5.5" rx="1"/><path d="M4 5.5V4a2 2 0 0 1 4 0v1.5"/></svg>Private and encrypted</div></div>
+<main>
+  <div class="head"><p id="appno">Leap Analytics, Inc.</p><h1 id="title">Secure documents</h1></div>
+
+  <div class="body" id="v-loading"><p class="lede">Opening your link…</p></div>
+
+  <div class="body" id="v-email" hidden>
+    <p class="lede" id="email-lede">To protect the homeowners' information, we'll send a one-time code to your work email.</p>
+    <form id="f-email" novalidate>
+      <label for="email">Work email</label>
+      <input id="email" type="email" autocomplete="email" inputmode="email" required>
+      <button class="btn" id="b-email" type="submit">Send my code</button>
+      <p class="msg" id="m-email" role="status"></p>
+    </form>
+  </div>
+
+  <div class="body" id="v-code" hidden>
+    <p class="lede">Enter the 6-digit code we sent to <span id="masked"></span>. It expires in 10 minutes.</p>
+    <form id="f-code" novalidate>
+      <label for="code">Code</label>
+      <input id="code" class="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required>
+      <button class="btn" id="b-code" type="submit">Open documents</button>
+      <p class="msg" id="m-code" role="status"></p>
+    </form>
+    <button class="link" id="b-other" type="button">Use a different email</button>
+  </div>
+
+  <div class="body" id="v-files" hidden>
+    <p class="lede">Signed and countersigned. Download each file below, or everything at once.</p>
+    <p class="meta" id="files-meta"></p>
+    <div class="all" style="margin-top:22px"><span id="all-count"></span><button class="btn" id="b-all" type="button">Download all (ZIP)</button></div>
+    <p class="msg" id="m-files" role="status"></p>
+    <div id="sections"></div>
+  </div>
+
+  <div class="body" id="v-dead" hidden><p class="lede" id="dead-msg"></p></div>
+
+  <div class="foot">Every view and download is recorded. Files contain personal information protected under federal privacy law; use them only to process this application. Questions: ashley@leaphei.com<br>&copy; <span id="yr"></span> Leap Analytics, Inc. &nbsp;NMLS ID 328689</div>
+</main>
+<script>
+(function(){
+  var API='https://gbyxbdtjgecmynaurxtx.supabase.co/functions/v1/share-v1/v1/';
+  var t=(location.hash||'').replace(/^#/,'').trim(), session=null, domains=[], email='';
+  document.getElementById('yr').textContent=new Date().getFullYear();
+  var $=function(id){return document.getElementById(id)};
+  function show(v){['loading','email','code','files','dead'].forEach(function(n){$('v-'+n).hidden=(n!==v)});$('v-'+v).classList.add('fade');}
+  function post(p,b){return fetch(API+p,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});}
+  function dead(code){
+    var m={INVALID_LINK:'This link isn\u2019t recognized. Check that you copied the whole link from the email.',
+      EXPIRED:'This link has expired. Reply to the email you received and we\u2019ll send a fresh one.',
+      REVOKED:'This link has been turned off. Reply to the email you received if you still need the documents.',
+      NOT_READY:'These documents are still being prepared. Try again in a few minutes.'};
+    $('dead-msg').textContent=m[code]||'Something went wrong opening this link. Reply to the email you received and we\u2019ll help.';show('dead');
+  }
+  function size(n){return n>1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB';}
+  function fmtDate(s){return new Date(s).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});}
+
+  // the token lives in the #fragment (never sent to servers); keep a tab-only copy so a reload still works
+  try{ if(t){sessionStorage.setItem('leap_share_t',t);} else {t=sessionStorage.getItem('leap_share_t')||'';} }catch(e){}
+  if(!t){dead('INVALID_LINK');return;}
+
+  post('open',{t:t}).then(function(r){return r.json().then(function(j){return [r,j]})}).then(function(x){
+    var j=x[1]; if(!j.ok){dead(j.code);return;}
+    domains=j.domains||[];
+    $('appno').textContent=j.application_number;
+    $('title').textContent='Signed application package';
+    $('email').placeholder='name@'+(domains[0]||'company.com');
+    $('email-lede').textContent='To protect the homeowners\u2019 information, we\u2019ll send a one-time code to your '+domains.map(function(d){return '@'+d}).join(' or ')+' email. Available until '+fmtDate(j.expires_at)+'.';
+    show('email'); $('email').focus();
+  }).catch(function(){dead('ERR');});
+
+  $('f-email').addEventListener('submit',function(e){
+    e.preventDefault(); email=$('email').value.trim().toLowerCase(); var m=$('m-email'); m.className='msg'; m.textContent='';
+    var d=email.split('@')[1]||'';
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){m.className='msg err';m.textContent='Enter a full email address.';return;}
+    if(domains.length&&domains.indexOf(d)<0){m.className='msg err';m.textContent='Use your '+domains.map(function(x){return '@'+x}).join(' or ')+' email address.';return;}
+    $('b-email').disabled=true;
+    post('code',{t:t,email:email}).then(function(r){return r.json()}).then(function(j){
+      $('b-email').disabled=false;
+      if(j.ok){$('masked').textContent=j.masked;show('code');$('code').value='';$('code').focus();return;}
+      if(j.code==='DOMAIN_NOT_ALLOWED'){m.className='msg err';m.textContent='Use your '+domains.map(function(x){return '@'+x}).join(' or ')+' email address.';return;}
+      if(j.code==='TOO_MANY_REQUESTS'){m.className='msg err';m.textContent='Too many codes requested. Wait an hour, then try again.';return;}
+      if(['EXPIRED','REVOKED','INVALID_LINK','NOT_READY'].indexOf(j.code)>=0){dead(j.code);return;}
+      m.className='msg err';m.textContent='We couldn\u2019t send the code. Try again.';
+    }).catch(function(){$('b-email').disabled=false;m.className='msg err';m.textContent='We couldn\u2019t send the code. Check your connection and try again.';});
+  });
+  $('b-other').addEventListener('click',function(){show('email');$('email').focus();});
+
+  $('f-code').addEventListener('submit',function(e){
+    e.preventDefault(); var c=$('code').value.replace(/\D/g,''), m=$('m-code'); m.className='msg'; m.textContent='';
+    if(c.length!==6){m.className='msg err';m.textContent='Enter all 6 digits.';return;}
+    $('b-code').disabled=true;
+    post('verify',{t:t,email:email,code:c}).then(function(r){return r.json()}).then(function(j){
+      $('b-code').disabled=false;
+      if(j.ok){session=j.session;loadFiles();return;}
+      m.className='msg err';
+      m.textContent=j.code==='INVALID_CODE'?'That code doesn\u2019t match.'+(j.attempts_left!=null?' '+j.attempts_left+' tries left.':'')
+        :j.code==='CODE_EXPIRED'?'That code has expired. Use a different email or request a new code.'
+        :j.code==='TOO_MANY_ATTEMPTS'?'Too many tries. Request a new code.':'That code didn\u2019t work. Request a new code.';
+    }).catch(function(){$('b-code').disabled=false;m.className='msg err';m.textContent='Check your connection and try again.';});
+  });
+
+  function expired(){session=null;$('m-email').className='msg err';$('m-email').textContent='Your session ended. Request a new code to continue.';show('email');}
+
+  function loadFiles(){
+    post('files',{session:session}).then(function(r){return r.json()}).then(function(j){
+      if(!j.ok){expired();return;}
+      $('files-meta').textContent='Opened as '+j.email+'. Available until '+fmtDate(j.expires_at)+'.';
+      $('all-count').textContent=j.files.length+' files';
+      var host=$('sections'); host.innerHTML=''; var groups={}, order=[];
+      j.files.forEach(function(f){if(!groups[f.section]){groups[f.section]=[];order.push(f.section);}groups[f.section].push(f);});
+      order.forEach(function(s){
+        var sec=document.createElement('section'), h=document.createElement('h2'); h.textContent=s; sec.appendChild(h);
+        groups[s].forEach(function(f){
+          var row=document.createElement('div'); row.className='row';
+          var d=document.createElement('div'), b=document.createElement('b'), sp=document.createElement('span');
+          b.textContent=f.label; sp.textContent=(f.mime_type==='application/pdf'?'PDF':'Image')+', '+size(f.file_size); d.appendChild(b); d.appendChild(sp);
+          var btn=document.createElement('button'); btn.className='dl'; btn.type='button'; btn.textContent='Download';
+          btn.setAttribute('aria-label','Download '+f.label+' ('+s+')');
+          btn.addEventListener('click',function(){one(f,btn)}); row.appendChild(d); row.appendChild(btn); sec.appendChild(row);
+        });
+        host.appendChild(sec);
+      });
+      show('files');
+    }).catch(function(){$('m-files').className='msg err';$('m-files').textContent='Couldn\u2019t load the files. Refresh to try again.';});
+  }
+  function one(f,btn){
+    btn.disabled=true; btn.textContent='Preparing…';
+    post('download',{session:session,file_id:f.id}).then(function(r){return r.json()}).then(function(j){
+      btn.disabled=false; btn.textContent='Download';
+      if(!j.ok){if(j.code==='SESSION_EXPIRED')expired();return;}
+      var a=document.createElement('a'); a.href=j.url; a.rel='noopener'; document.body.appendChild(a); a.click(); a.remove();
+      btn.textContent='Downloaded';
+    }).catch(function(){btn.disabled=false;btn.textContent='Try again';});
+  }
+  $('b-all').addEventListener('click',function(){
+    var b=$('b-all'), m=$('m-files'); b.disabled=true; b.textContent='Preparing ZIP…'; m.className='msg'; m.textContent='';
+    post('zip',{session:session}).then(function(r){
+      if(r.status===401){expired();throw 0;}
+      if(!r.ok) throw new Error('zip');
+      var cd=r.headers.get('content-disposition')||'', n=(cd.match(/filename="([^"]+)"/)||[])[1]||'application package.zip';
+      return r.blob().then(function(bl){
+        var u=URL.createObjectURL(bl), a=document.createElement('a'); a.href=u; a.download=n; document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function(){URL.revokeObjectURL(u)},60000);
+      });
+    }).then(function(){b.disabled=false;b.textContent='Download all (ZIP)';m.textContent='Download started.';})
+    .catch(function(e){b.disabled=false;b.textContent='Download all (ZIP)';if(e!==0){m.className='msg err';m.textContent='The ZIP didn\u2019t download. Try again, or download files one at a time.';}});
+  });
+})();
+</script>
+</body>
+</html>
