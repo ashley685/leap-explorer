@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Leap · Data room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+:root{--forest:#1E3528;--cream:#F5EFE1;--paper:#FFFDF8;--gold:#9C7A2E;--line:#E4DAC2;--soft:#6B7468;--err:#9B3B2E;
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;--sans:Inter,-apple-system,'Segoe UI',Arial,sans-serif}
+*{box-sizing:border-box;margin:0}
+html,body{background:var(--cream);color:var(--forest);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased}
+body{min-height:100vh;padding:env(safe-area-inset-top,0) 16px env(safe-area-inset-bottom,0)}
+.bar{max-width:720px;margin:0 auto;padding:28px 0 0;display:flex;justify-content:space-between;align-items:center}
+.bar img{width:46px;height:18px;display:block}
+.lock{font-size:12px;color:var(--soft);display:flex;gap:6px;align-items:center}
+.lock svg{width:12px;height:12px}
+main{max-width:720px;margin:28px auto 64px;background:var(--paper);border:1px solid var(--line)}
+.head{background:var(--forest);color:var(--cream);padding:36px 40px 32px}
+.head p{font-size:13px;color:#C9BF9E;letter-spacing:.02em}
+.head h1{font-family:var(--serif);font-weight:400;font-size:36px;line-height:1.15;margin-top:8px}
+.body{padding:32px 40px 40px}
+.lede{font-size:15px;line-height:1.7;max-width:50ch}
+label{display:block;font-size:13px;color:var(--soft);margin:24px 0 8px}
+input{width:100%;font:inherit;font-weight:400;color:var(--forest);background:#fff;border:1px solid var(--line);border-radius:2px;outline:none}
+input.code{font-family:var(--serif);font-size:32px;letter-spacing:.4em;text-align:center;padding:10px;transition:opacity .2s}
+input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(156,122,46,.15)}
+input.code:disabled{opacity:.55}
+.verifying{display:flex;align-items:center;gap:10px;font-size:14px;margin-top:16px}
+.spin{width:16px;height:16px;border:2px solid var(--line);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:inherit;font-size:15px;font-weight:400;cursor:pointer;border:0;border-radius:999px;padding:14px 26px;background:var(--forest);color:var(--cream);margin-top:22px}
+.btn:disabled{opacity:.5;cursor:default}
+.btn:focus-visible,.dl:focus-visible,.link:focus-visible,.open:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.link{background:none;border:0;font:inherit;font-size:13px;color:var(--gold);cursor:pointer;margin-top:16px;padding:0;text-decoration:underline;text-underline-offset:3px}
+.msg{font-size:14px;line-height:1.6;margin-top:14px;min-height:1px}
+.msg.err{color:var(--err)}
+.meta{font-size:13px;color:var(--soft);margin-top:6px}
+section{margin-top:40px}
+section h2{font-family:var(--serif);font-weight:700;font-size:25px;line-height:1.2;padding-bottom:10px;border-bottom:2px solid var(--forest)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.row b{font-weight:400;font-size:15px;display:block}
+.row span{font-size:12px;color:var(--soft)}
+.acts{display:flex;gap:8px;flex:none}
+.open,.dl{font:inherit;font-size:13px;font-weight:400;border-radius:999px;padding:8px 16px;cursor:pointer}
+.open{color:var(--cream);background:var(--forest);border:1px solid var(--forest)}
+.dl{color:var(--forest);background:none;border:1px solid var(--forest)}
+.dl:hover{background:var(--forest);color:var(--cream)}
+.foot{font-size:12px;line-height:1.7;color:var(--soft);padding:22px 40px;border-top:1px solid var(--line)}
+/* viewer */
+.vw{position:fixed;inset:0;z-index:50;background:#2A3A30;display:flex;flex-direction:column}
+.vw-head{display:flex;align-items:center;gap:12px;padding:12px 18px;background:var(--forest);color:var(--cream)}
+.vw-head b{font-weight:400;font-size:15px;display:block}
+.vw-head span{font-size:12px;color:#C9BF9E}
+.vw-head .dl{margin-left:auto;color:var(--cream);border-color:#C9BF9E}
+.vw-head .dl:hover{background:var(--cream);color:var(--forest)}
+.vw-x{width:36px;height:36px;border:0;background:none;font-size:24px;line-height:1;color:var(--cream);cursor:pointer;flex:none}
+.vw-body{flex:1;min-height:0;overflow:auto;padding:20px 12px 40px;user-select:none;-webkit-user-select:none}
+.pg{position:relative;margin:0 auto 16px;background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.25);max-width:1000px}
+.pg canvas{display:block;width:100%;height:auto}
+.wm{position:absolute;inset:0;overflow:hidden;pointer-events:none;display:flex;flex-wrap:wrap;align-content:space-around;justify-content:space-around;transform:rotate(-24deg) scale(1.4)}
+.wm i{font-style:normal;font-size:13px;color:rgba(30,53,40,.08);white-space:nowrap;padding:28px 18px}
+.pgno{position:absolute;right:10px;bottom:8px;font-size:11px;color:var(--soft);background:rgba(255,253,248,.85);padding:2px 8px;border-radius:999px}
+.vw-msg{color:var(--cream);text-align:center;padding:40px;font-size:14px}
+[hidden]{display:none!important}
+.fade{animation:in .45s ease both}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.fade{animation:none}.spin{animation-duration:2.4s}}
+@media (max-width:560px){.head,.body{padding-left:24px;padding-right:24px}.foot{padding:20px 24px}.head h1{font-size:29px}.row{align-items:flex-start;flex-direction:column}}
+@media print{body *{visibility:hidden!important}body::after{content:"Printing is disabled for this data room.";visibility:visible}}
+</style>
+</head>
+<body>
+<div class="bar"><img src="https://leaphei.com/images/logo-gold.png" alt="Leap">
+  <div class="lock"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="5.5" width="8" height="5.5" rx="1"/><path d="M4 5.5V4a2 2 0 0 1 4 0v1.5"/></svg>Private and encrypted</div></div>
+<main>
+  <div class="head"><p>Leap Analytics, Inc.</p><h1 id="title">Data room</h1></div>
+
+  <div class="body" id="v-loading"><p class="lede">Opening your link…</p></div>
+
+  <div class="body" id="v-send" hidden>
+    <p class="lede" id="send-lede"></p>
+    <button class="btn" id="b-send" type="button">Send my code</button>
+    <p class="msg" id="m-send" role="status"></p>
+  </div>
+
+  <div class="body" id="v-code" hidden>
+    <p class="lede">Enter the 6-digit code we sent to <span id="masked"></span>. It expires in 10 minutes.</p>
+    <form id="f-code" novalidate>
+      <label for="code">Code</label>
+      <input id="code" class="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required>
+      <div class="verifying" id="verifying" hidden><span class="spin" aria-hidden="true"></span>Verifying your code…</div>
+      <p class="msg" id="m-code" role="status" aria-live="polite"></p>
+    </form>
+    <button class="link" id="b-resend" type="button">Send a new code</button>
+  </div>
+
+  <div class="body" id="v-files" hidden>
+    <p class="lede" id="files-lede"></p>
+    <p class="meta" id="files-meta"></p>
+    <div id="sections"></div>
+  </div>
+
+  <div class="body" id="v-dead" hidden><p class="lede" id="dead-msg"></p></div>
+
+  <div class="foot">Confidential. Shared only with you to evaluate an investment in Leap Analytics, Inc., and not an offer to sell securities. Every view and download is recorded, and documents are marked with your email. Questions: ashley@leaphei.com<br>&copy; <span id="yr"></span> Leap Analytics, Inc.</div>
+</main>
+
+<div class="vw" id="vw" hidden role="dialog" aria-modal="true" aria-labelledby="vw-title">
+  <div class="vw-head"><div><b id="vw-title"></b><span id="vw-sub"></span></div><button class="dl" id="vw-dl" type="button" hidden>Download</button><button class="vw-x" id="vw-x" type="button" aria-label="Close">&times;</button></div>
+  <div class="vw-body" id="vw-body"></div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var API='https://gbyxbdtjgecmynaurxtx.supabase.co/functions/v1/dataroom-v1/v1/';
+  var $=function(id){return document.getElementById(id)};
+  $('yr').textContent=new Date().getFullYear();
+  if(window.pdfjsLib){pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';}
+  function show(v){['loading','send','code','files','dead'].forEach(function(n){$('v-'+n).hidden=(n!==v)});$('v-'+v).classList.add('fade');}
+  function post(p,b,opt){return fetch(API+p,Object.assign({method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)},opt||{}));}
+  function fmtDate(s){try{return new Date(s).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}catch(e){return ''}}
+  function fmtSize(n){if(!n)return '';return n>1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB';}
+  function ss(k,v){try{if(v===undefined)return sessionStorage.getItem(k)||'';if(v===null)sessionStorage.removeItem(k);else sessionStorage.setItem(k,v);}catch(e){return ''}}
+  function dead(code){
+    var m={EXPIRED:'This link has expired. Reply to Ashley’s email and she’ll send you a fresh one.',
+      REVOKED:'This link is no longer active. Reply to Ashley’s email if you need access.',
+      INVALID_LINK:'This link isn’t valid. Check that you opened the full link from your email.'};
+    $('dead-msg').textContent=m[code]||'Something went wrong opening this link. Reply to Ashley’s email and we’ll help.';show('dead');
+  }
+
+  var t=(location.hash||'').replace(/^#/,''); if(t){ss('leap_room_t',t);history.replaceState(null,'',location.pathname);} else t=ss('leap_room_t');
+  var session=ss('leap_room_s'), me='', files=[];
+  if(!t && !session){dead('INVALID_LINK');return;}
+
+  function start(){
+    if(session){loadFiles(true);return;}
+    post('open',{t:t}).then(function(r){return r.json()}).then(function(j){
+      if(!j.ok){dead(j.code);return;}
+      $('title').textContent=j.title||'Data room';
+      $('send-lede').textContent=(j.name?'Welcome, '+j.name+'. ':'')+'To keep this room private, we’ll send a one-time code to '+j.masked+'. Your access is open until '+fmtDate(j.expires_at)+'.';
+      show('send');
+    }).catch(function(){dead()});
+  }
+
+  function sendCode(btn,msg){
+    btn.disabled=true; msg.className='msg'; msg.textContent='';
+    post('code',{t:t}).then(function(r){return r.json()}).then(function(j){
+      btn.disabled=false;
+      if(j.ok){$('masked').textContent=j.masked;show('code');$('code').value='';$('code').focus();return;}
+      if(j.code==='TOO_MANY_REQUESTS'){msg.className='msg err';msg.textContent='Too many codes requested. Wait an hour, then try again.';return;}
+      if(['EXPIRED','REVOKED','INVALID_LINK'].indexOf(j.code)>=0){dead(j.code);return;}
+      msg.className='msg err';msg.textContent='We couldn’t send the code. Try again.';
+    }).catch(function(){btn.disabled=false;msg.className='msg err';msg.textContent='We couldn’t send the code. Check your connection and try again.';});
+  }
+  $('b-send').addEventListener('click',function(){sendCode(this,$('m-send'))});
+  $('b-resend').addEventListener('click',function(){sendCode(this,$('m-code'))});
+
+  var verifying=false;
+  function busy(on){verifying=on;$('code').disabled=on;$('verifying').hidden=!on;}
+  function verify(){
+    if(verifying)return; var c=$('code').value.replace(/\D/g,''),m=$('m-code'); m.className='msg'; m.textContent='';
+    if(c.length!==6)return; busy(true);
+    post('verify',{t:t,code:c}).then(function(r){return r.json()}).then(function(j){
+      if(j.ok){session=j.session;ss('leap_room_s',session);loadFiles(false);return;}
+      busy(false);$('code').value='';$('code').focus();m.className='msg err';
+      m.textContent=j.code==='INVALID_CODE'?'That code doesn’t match.'+(j.attempts_left!=null?' '+j.attempts_left+' tries left.':'')
+        :j.code==='CODE_EXPIRED'?'That code has expired. Send a new code.'
+        :j.code==='TOO_MANY_ATTEMPTS'?'Too many tries. Send a new code.':'That code didn’t work. Send a new code.';
+    }).catch(function(){busy(false);m.className='msg err';m.textContent='We couldn’t check the code. Try again.';});
+  }
+  $('code').addEventListener('input',function(){var v=this.value.replace(/\D/g,'').slice(0,6);if(v!==this.value)this.value=v;if(v.length===6)verify();});
+  $('f-code').addEventListener('submit',function(e){e.preventDefault();verify();});
+
+  function expired(){session='';ss('leap_room_s',null);closeViewer();if(t){$('m-send').className='msg err';$('m-send').textContent='Your session ended. Send a new code to continue.';start();}else dead();}
+
+  function loadFiles(resumed){
+    post('files',{session:session}).then(function(r){return r.json()}).then(function(j){
+      if(!j.ok){session='';ss('leap_room_s',null);if(t)start();else dead();return;}
+      me=j.email; files=j.files; busy(false);
+      $('title').textContent=j.title||'Data room';
+      $('files-lede').textContent=(j.name?j.name+', welcome. ':'')+'Open any document to read it here. The deck and financial model can also be downloaded.';
+      $('files-meta').textContent='Signed in as '+j.email+' · Access open until '+fmtDate(j.expires_at);
+      var by={},order=[]; files.forEach(function(f){if(!by[f.section]){by[f.section]=[];order.push(f.section)}by[f.section].push(f)});
+      var host=$('sections'); host.innerHTML='';
+      order.forEach(function(sec){
+        var s=document.createElement('section'),h=document.createElement('h2'); h.textContent=sec.replace(/^\d+[_ ]*/,''); s.appendChild(h);
+        by[sec].forEach(function(f){
+          var row=document.createElement('div'); row.className='row';
+          var info=document.createElement('div'),b=document.createElement('b'),sp=document.createElement('span');
+          b.textContent=f.label; sp.textContent=[f.page_count?f.page_count+(f.page_count===1?' page':' pages'):'',f.viewable?'':'Spreadsheet',fmtSize(f.file_size),f.downloadable?'Downloadable':'View only'].filter(Boolean).join(' · ');
+          info.appendChild(b); info.appendChild(sp); row.appendChild(info);
+          var acts=document.createElement('div'); acts.className='acts';
+          if(f.viewable){var o=document.createElement('button');o.className='open';o.type='button';o.textContent='Open';o.onclick=function(){openViewer(f)};acts.appendChild(o);}
+          if(f.downloadable){var d=document.createElement('button');d.className='dl';d.type='button';d.textContent='Download';d.onclick=function(){download(f,d)};acts.appendChild(d);}
+          row.appendChild(acts); s.appendChild(row);
+        });
+        host.appendChild(s);
+      });
+      show('files');
+    }).catch(function(){if(resumed&&t){session='';ss('leap_room_s',null);start();}else dead();});
+  }
+
+  function download(f,btn){
+    var label=btn.textContent; btn.disabled=true; btn.textContent='Preparing…';
+    post('download',{session:session,file_id:f.id}).then(function(r){
+      if(r.status===401){expired();return null;}
+      if(!r.ok)throw new Error('dl'); return r.blob();
+    }).then(function(blob){
+      if(!blob)return; var a=document.createElement('a'),u=URL.createObjectURL(blob);
+      a.href=u; a.download=f.label.replace(/[\\/:*?"<>|]+/g,'-')+(f.viewable?'.pdf':'.xlsx'); document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function(){URL.revokeObjectURL(u)},4000);
+    }).catch(function(){alert('That download didn’t work. Try again.')}).then(function(){btn.disabled=false;btn.textContent=label;});
+  }
+
+  /* Viewer and page-time tracking */
+  var cur=null, pending=[], curPage=1, lastTick=0, lastInput=Date.now(), ticker=null, io=null;
+  function wmLayer(){var w=document.createElement('div');w.className='wm';var txt=me+' · '+new Date().toLocaleDateString('en-US');for(var i=0;i<40;i++){var x=document.createElement('i');x.textContent=txt;w.appendChild(x)}return w;}
+  function tick(){
+    if(!cur)return; var now=Date.now(), dt=(now-lastTick)/1000; lastTick=now;
+    if(document.visibilityState!=='visible'||now-lastInput>90000||dt>30)return;
+    var last=pending[pending.length-1];
+    if(last&&last.file_id===cur.id&&last.page===curPage)last.seconds+=dt; else pending.push({file_id:cur.id,page:curPage,seconds:dt});
+  }
+  function flush(useBeacon){
+    tick(); var evs=pending.filter(function(e){return e.seconds>=1}).map(function(e){return {file_id:e.file_id,page:e.page,seconds:Math.round(e.seconds)}}); pending=[];
+    if(!evs.length||!session)return;
+    post('track',{session:session,events:evs},{keepalive:!!useBeacon}).then(function(r){if(r.status===401)expired();}).catch(function(){});
+  }
+  ['mousemove','keydown','scroll','touchstart','wheel'].forEach(function(e){window.addEventListener(e,function(){lastInput=Date.now()},{passive:true,capture:true})});
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')flush(true);else lastTick=Date.now();});
+  window.addEventListener('pagehide',function(){flush(true)});
+
+  function closeViewer(){if(!cur)return;flush(false);cur=null;clearInterval(ticker);if(io)io.disconnect();$('vw').hidden=true;$('vw-body').innerHTML='';document.body.style.overflow='';}
+  $('vw-x').addEventListener('click',closeViewer);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeViewer();});
+  $('vw').addEventListener('contextmenu',function(e){e.preventDefault()});
+
+  function openViewer(f){
+    cur=f; curPage=1; pending=[]; lastTick=Date.now(); lastInput=Date.now();
+    $('vw-title').textContent=f.label; $('vw-sub').textContent=f.downloadable?'':'View only';
+    var dl=$('vw-dl'); dl.hidden=!f.downloadable; dl.onclick=function(){download(f,dl)};
+    var body=$('vw-body'); body.innerHTML='<p class="vw-msg">Loading…</p>'; $('vw').hidden=false; document.body.style.overflow='hidden';
+    var n0=0; ticker=setInterval(function(){tick(); if(++n0%15===0)flush(false);},1000);
+    post('view',{session:session,file_id:f.id}).then(function(r){
+      if(r.status===401){expired();return null;} if(!r.ok)throw new Error('view'); return r.arrayBuffer();
+    }).then(function(buf){
+      if(!buf||cur!==f)return;
+      return pdfjsLib.getDocument({data:new Uint8Array(buf),isEvalSupported:false}).promise.then(function(pdf){
+        if(cur!==f)return; body.innerHTML='';
+        var width=Math.min(body.clientWidth-24,1000), dpr=Math.min(window.devicePixelRatio||1,2), holders=[];
+        io=new IntersectionObserver(function(ents){
+          ents.forEach(function(en){var h=en.target;if(en.isIntersecting&&!h.dataset.done){h.dataset.done='1';render(pdf,+h.dataset.n,h,width,dpr);}});
+          var best=null,bv=0; holders.forEach(function(h){var r=h.getBoundingClientRect(),vis=Math.max(0,Math.min(r.bottom,innerHeight)-Math.max(r.top,0));if(vis>bv){bv=vis;best=h}});
+          if(best){var n=+best.dataset.n; if(n!==curPage){tick();curPage=n;}}
+        },{root:body,threshold:[0,.25,.5,.75,1],rootMargin:'400px 0px'});
+        for(var n=1;n<=pdf.numPages;n++){
+          var h=document.createElement('div');h.className='pg';h.dataset.n=n;h.style.width=width+'px';h.style.height=Math.round(width*0.5625)+'px';
+          var no=document.createElement('span');no.className='pgno';no.textContent=n+' / '+pdf.numPages;h.appendChild(no);
+          body.appendChild(h);holders.push(h);io.observe(h);
+        }
+        body.addEventListener('scroll',function(){io.takeRecords();var best=null,bv=0;holders.forEach(function(h){var r=h.getBoundingClientRect(),vis=Math.max(0,Math.min(r.bottom,innerHeight)-Math.max(r.top,0));if(vis>bv){bv=vis;best=h}});if(best){var n=+best.dataset.n;if(n!==curPage){tick();curPage=n;}}},{passive:true});
+      });
+    }).catch(function(){if(cur===f)body.innerHTML='<p class="vw-msg">This document didn’t load. Close it and try again.</p>';});
+  }
+  function render(pdf,n,h,width,dpr){
+    pdf.getPage(n).then(function(page){
+      var v=page.getViewport({scale:1}), scale=width/v.width, vp=page.getViewport({scale:scale*dpr});
+      var c=document.createElement('canvas'); c.width=vp.width; c.height=vp.height;
+      h.style.height='auto'; h.insertBefore(c,h.firstChild); h.appendChild(wmLayer());
+      page.render({canvasContext:c.getContext('2d'),viewport:vp});
+    });
+  }
+
+  start();
+})();
+</script>
+</body>
+</html>
